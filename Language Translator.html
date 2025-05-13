@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Language Translator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #f0f7f0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 10vh;
+        padding: 50px;
+        background-color: #fff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin-bottom: 30px;
+        color: #2e7d32;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1:after {
+        content: "";
+        position: absolute;
+        width: 60%;
+        height: 3px;
+        background-color: #4caf50;
+        bottom: -10px;
+        left: 20%;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+        width: 100%;
+      }
+
+      .language-options {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .language-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 45%;
+        background-color: #e8f5e9;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      label {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #2e7d32;
+        font-weight: bold;
+      }
+
+      select {
+        font-size: 16px;
+        padding: 10px 15px;
+        width: 100%;
+        border: 1px solid #c8e6c9;
+        border-radius: 5px;
+        background-color: white;
+        color: #333;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      select:hover, select:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      }
+
+      .input-area {
+        width: 100%;
+        margin: 20px 0;
+      }
+
+      textarea {
+        width: 100%;
+        height: 120px;
+        padding: 12px;
+        border: 1px solid #c8e6c9;
+        border-radius: 10px;
+        font-size: 16px;
+        resize: none;
+        transition: all 0.3s ease;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #4caf50;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      }
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 200px;
+        height: 50px;
+        margin-top: 20px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      button:hover {
+        background-color: #fff;
+        color: #4caf50;
+        box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      .result-container {
+        margin-top: 30px;
+        padding: 25px;
+        background-color: #e8f5e9;
+        border-radius: 12px;
+        text-align: left;
+        width: 100%;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        border-left: 5px solid #4caf50;
+        min-height: 100px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #2e7d32;
+        line-height: 1.5;
+      }
+
+      .footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .swap-btn {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 20px;
+        margin: 10px 0;
+        transition: all 0.3s ease;
+      }
+
+      .swap-btn:hover {
+        background-color: #4caf50;
+        color: white;
+      }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Language Translator</h1>
+        <p>Translate text between multiple languages instantly</p>
+
+        <form id="translator-form" onsubmit="event.preventDefault(); return false;">
+            <div class="language-options">
+                <div class="language-group">
+                    <label for="source">Source Language</label>
+                    <select id="source">
+                        <option value="en">English</option>
+                        <option value="gu">Gujarati</option>
+                        <option value="hi">Hindi</option>
+                        <option value="bn">Bengali</option>
+                        <option value="mr">Marathi</option>
+                        <option value="sa">Sanskrit</option>
+                        <option value="ta">Tamil</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="ru">Russian</option>
+                        <option value="es">Spanish</option>
+                        <option value="it">Italian</option>
+                        <option value="vi">Vietnamese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="zh">Chinese</option>
+                        <option value="jp">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="la">Latin</option>
+                        <option value="sv">Swedish</option>
+                        <option value="ro">Romanian</option>
+                    </select>
+                </div>
+
+                <div class="swap-btn" onclick="swapLanguages()" title="Swap languages">
+                    ⇄
+                </div>
+
+                <div class="language-group">
+                    <label for="target">Target Language</label>
+                    <select id="target">
+                        <option value="en">English</option>
+                        <option value="gu">Gujarati</option>
+                        <option value="hi">Hindi</option>
+                        <option value="bn">Bengali</option>
+                        <option value="mr">Marathi</option>
+                        <option value="sa">Sanskrit</option>
+                        <option value="ta">Tamil</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="ru">Russian</option>
+                        <option value="es">Spanish</option>
+                        <option value="it">Italian</option>
+                        <option value="vi">Vietnamese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="zh">Chinese</option>
+                        <option value="jp">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="la">Latin</option>
+                        <option value="sv">Swedish</option>
+                        <option value="ro">Romanian</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <textarea id="input-text" placeholder="Enter text to translate..."></textarea>
+            </div>
+
+            <button type="button" id="translate-btn" onclick="translate(event)">Translate</button>
+        </form>
+
+        <div class="result-container">
+            <p id="result">Your translation will appear here...</p>
+        </div>
+
+        <div class="footer">
+            Powered by Google Translate API
+        </div>
+    </div>
+
+    <script>
+        // Add an event listener when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add an event listener to the form to prevent default submission
+            document.getElementById('translator-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Add an event listener to the button
+            document.getElementById('translate-btn').addEventListener('click', function(e) {
+                translate(e);
+            });
+        });
+        
+        function translate(event) {
+            // Prevent any form submission if event is passed
+            if (event) {
+                event.preventDefault();
+            }
+            
+            console.log("Translation function called");
+            
+            const source = document.getElementById("source").value;
+            const target = document.getElementById("target").value;
+            const input = document.getElementById("input-text").value;
+                        
+            if (!input.trim()) {
+                alert("Please enter text to translate");
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById("result").innerText = "Translating...";
+            
+            // Using a CORS proxy to avoid browser restrictions
+            const encodedText = encodeURIComponent(input);
+            
+            // Method 1: LibreTranslate API - free and open source
+            fetch(`https://libretranslate.de/translate`, {
+                method: "POST",
+                body: JSON.stringify({
+                    q: input,
+                    source: source,
+                    target: target
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // If LibreTranslate fails, try fallback method
+                    throw new Error('LibreTranslate API failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("result").innerText = data.translatedText;
+            })
+            .catch(error => {
+                // Fallback to Method 2: Google Translate API via CORS proxy
+                console.log("Using fallback translation method");
+                const apiUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodedText}`;
+                
+                // Using a CORS proxy
+                const corsProxyUrl = `https://cors-anywhere.herokuapp.com/${apiUrl}`;
+                
+                fetch(corsProxyUrl, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Extract translation from Google's response format
+                    if (data && data[0] && data[0][0]) {
+                        document.getElementById("result").innerText = data[0][0][0];
+                    } else {
+                        throw new Error('Unexpected response format');
+                    }
+                })
+                .catch(finalError => {
+                    // Both methods failed, inform user to try different approach
+                    document.getElementById("result").innerText = 
+                        "Translation services currently unavailable. Please try again later or use a smaller text sample.";
+                    console.error("Translation error:", finalError);
+                    
+                    // Fallback to client-side basic translation for common phrases
+                    tryBasicTranslation(input, source, target);
+                });
+            });
+        }
+        
+        function tryBasicTranslation(text, source, target) {
+            // Very basic fallback with common phrases for demo purposes
+            const commonPhrases = {
+                "en": {
+                    "hello": { "es": "hola", "fr": "bonjour", "de": "hallo", "hi": "नमस्ते" },
+                    "thank you": { "es": "gracias", "fr": "merci", "de": "danke", "hi": "धन्यवाद" },
+                    "goodbye": { "es": "adiós", "fr": "au revoir", "de": "auf wiedersehen", "hi": "अलविदा" }
+                }
+            };
+            
+            // Only works for basic phrases from supported source languages
+            if (commonPhrases[source] && text.toLowerCase() in commonPhrases[source]) {
+                const translations = commonPhrases[source][text.toLowerCase()];
+                if (translations[target]) {
+                    const currentText = document.getElementById("result").innerText;
+                    document.getElementById("result").innerText = 
+                        currentText + "\n\nBasic translation: " + translations[target];
+                }
+            }
+        }
+        
+        function swapLanguages() {
+            const sourceSelect = document.getElementById("source");
+            const targetSelect = document.getElementById("target");
+            
+            const tempValue = sourceSelect.value;
+            sourceSelect.value = targetSelect.value;
+            targetSelect.value = tempValue;
+            
+            // Also swap text if there's input and result
+            const inputText = document.getElementById("input-text").value;
+            const resultText = document.getElementById("result").innerText;
+            
+            if (resultText && resultText !== "Your translation will appear here..." && 
+                resultText !== "Translating..." && 
+                !resultText.includes("failed") && 
+                !resultText.includes("unavailable")) {
+                document.getElementById("input-text").value = resultText;
+                document.getElementById("result").innerText = inputText;
+            }
+        }
+    </script>
+</body>
+</html>

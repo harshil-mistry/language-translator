@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Speech-to-Text Converter</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #f0f7f0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 10vh;
+        padding: 50px;
+        background-color: #fff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin-bottom: 30px;
+        color: #2e7d32;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1:after {
+        content: "";
+        position: absolute;
+        width: 60%;
+        height: 3px;
+        background-color: #4caf50;
+        bottom: -10px;
+        left: 20%;
+      }
+
+      #record-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 200px;
+        height: 60px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      #record-button:hover {
+        background-color: #fff;
+        color: #4caf50;
+        box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
+      }
+
+      #record-button:active {
+        transform: scale(0.98);
+      }
+
+      #result-container {
+        margin-top: 40px;
+        padding: 25px;
+        background-color: #e8f5e9;
+        border-radius: 12px;
+        text-align: left;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        border-left: 5px solid #4caf50;
+        transition: all 0.3s ease;
+      }
+
+      #result {
+        font-size: 22px;
+        color: #2e7d32;
+        line-height: 1.5;
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background-color: #ccc;
+        border-radius: 50%;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      .recording .status-indicator {
+        background-color: #f44336;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+        }
+        70% {
+          transform: scale(1.1);
+          box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+        }
+      }
+
+      .footer {
+        margin-top: 50px;
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Speech-to-Text Converter</h1>
+      <p>Click the button below and start speaking. Your speech will be converted to text.</p>
+      <button id="record-button" onclick="toggleRecording()">
+        <span class="status-indicator"></span>
+        Start Recording
+      </button>
+      <div id="result-container">
+        <div id="result">Your converted text will appear here...</div>
+      </div>
+      <div class="footer">
+        Speak clearly for best results. Works with most modern browsers.
+      </div>
+    </div>
+  
+    <script>
+      let recognition;
+      let isRecording = false;
+      
+      function toggleRecording() {
+        const button = document.getElementById("record-button");
+        const buttonText = button.textContent.trim();
+        
+        if (!isRecording) {
+          // Start recording
+          startRecording();
+          button.innerHTML = '<span class="status-indicator"></span> Stop Recording';
+          button.classList.add('recording');
+          isRecording = true;
+        } else {
+          // Stop recording
+          stopRecording();
+          button.innerHTML = '<span class="status-indicator"></span> Start Recording';
+          button.classList.remove('recording');
+          isRecording = false;
+        }
+      }
+      
+      function startRecording() {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = true;
+        recognition.continuous = true;
+        
+        recognition.onresult = function(event) {
+          const result = event.results[0][0].transcript;
+          document.getElementById("result").innerHTML = result;
+        };
+        
+        recognition.onerror = function(event) {
+          console.error('Speech recognition error', event.error);
+          stopRecording();
+        };
+        
+        recognition.start();
+      }
+      
+      function stopRecording() {
+        if (recognition) {
+          recognition.stop();
+        }
+      }
+    </script>
+  </body>
+</html>
