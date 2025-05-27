@@ -27,5 +27,5 @@ This is a simple web-based project that includes:
 
 ## 📌 Notes
 
-- This is not mmy best project in anny way.
-- This was just made during my diploma when I had 0 knowledge.
+- This is not my best project in any way.
+- This was just made during my diploma when I had 0 knowledge about Web Dev.
